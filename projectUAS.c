@@ -2,7 +2,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <libpq-fe.h>
-#include ""
+#include "dataPembeli.h"
+#include "dataPenjual.h"
 
 // struct pada data
 struct All [2][2] {
@@ -55,6 +56,11 @@ void tampilanData (){
         return 1;
     }
 } 
+
+// daftar sebagai penjual
+void 
+
+// login sebagai penjual 
 
 // menampilkan data pada penjual
 void tampilSbgPenjual () {
@@ -111,12 +117,12 @@ void tampilSearchingPembeli(){
     printf("Search ");
     scanf("", );
 
-    
+
 }
 
 // menampilkan isi pada keranjang 
 void tampilanKeranjang(){
-
+    printf("E. exit\n");
 
 }
 
