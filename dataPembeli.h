@@ -22,4 +22,9 @@ void loginPembeli(){
     
 }
 
+// lupa password
+void lupaPassword(){
+
+}
+
 #endif

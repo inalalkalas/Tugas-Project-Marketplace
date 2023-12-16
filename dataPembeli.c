@@ -42,6 +42,59 @@ void daftarPembeli(struct dataPembeli * dataPembeli, char * data){
 }
 
 // login sebagai pembeli
-void loginPembeli(){
-    
+void loginPembeli(struct dataPembeli *dataPembeli, int data){
+
+    char inputEmail[70];
+    char inputPassword[48];
+
+    clearNewline();
+
+    printf("Masukan Email: ");
+    fgets(inputEmail, sizeof(inputEmail), stdin);
+
+    for (int i = 0; i < data; i++)
+    {
+        if (strcmp(inputEmail, dataPembeli[i].email) == 0)
+        {
+            printf("Masukan Password: ");
+            fgets(inputPassword, sizeof(inputPassword), stdin);
+
+            if (strcmp(inputPassword, dataPembeli[i].password) == 0)
+            {
+                printf("Login berhasil!\n");
+                return 1; // Login successful
+            }
+            else
+            {
+                printf("Password salah!\n");
+                return 0; // Password incorrect
+            }
+        }
+    }
+
+    printf("Email tidak ditemukan!\n");
+    return -1; // Email not found
+}
+
+// Function to recover password
+void lupaPassword(struct dataPembeli *dataPembeli, int data)
+{
+    char inputEmail[70];
+
+    clearNewline();
+
+    printf("Masukan Email: ");
+    fgets(inputEmail, sizeof(inputEmail), stdin);
+
+    for (int i = 0; i < data; i++)
+    {
+        if (strcmp(inputEmail, dataPembeli[i].email) == 0)
+        {
+            // Simulate sending a recovery email
+            printf("Email pemulihan password telah dikirim ke %s\n", inputEmail);
+            return;
+        }
+    }
+
+    printf("Email tidak ditemukan!\n");
 }

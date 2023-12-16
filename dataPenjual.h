@@ -23,4 +23,7 @@ void loginPenjual(){
 
 }
 
+void lupaPassword(){
+    
+}
 #endif
