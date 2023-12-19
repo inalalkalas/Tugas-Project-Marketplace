@@ -4,6 +4,7 @@
 #include <string.h>
 #include "dataPembeli.h"
 #include "dataPenjual.h"
+#include "produkGudang.h"
 
 // struct pada data
 struct All {
