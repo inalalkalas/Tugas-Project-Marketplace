@@ -210,8 +210,8 @@ void tampilSbgPenjual () {
 
         printf("1. Tambahkan Item\n");
         printf("2. lihat data produk\n");
-        printf("3. pesan\n");
-        printf("4. notifikasi\n");
+        printf("3. lihat tanggal restock\n");
+        printf("4. lihat estimasi restock\n");
         printf("5. setting\n");
         printf("E. exit\n");
         printf("Pilihan Anda: ");
@@ -226,10 +226,10 @@ void tampilSbgPenjual () {
             tampilItem();
             break;
         case '3':
-            pesanPenjual();
+
             break;
         case '4':
-            notifPenjual();
+
             break;
         case '5': 
             settingPenjual();
@@ -241,11 +241,6 @@ void tampilSbgPenjual () {
 
     } while (choice6 != 'e' || choice6 != 'E');
 
-}
-
-// menambahkan item untuk penjual
-void tambahItemPenjual(){
-    
 }
 
 // menampilkan barang yang sudah ditambahkan
@@ -316,13 +311,6 @@ void tampilSbgPembeli() {
     } while (choice7 != 'e' || choice7 != 'E');
 }
 
-// mencari barang untuk pembeli
-void tampilSearchingPembeli(){
-    printf("Search ");
-    fgets(dataPembeli[*data].nama, sizeof(dataPembeli[*data].nama), stdin);
-
-
-}
 
 // menampilkan baarang yang sudah di cari
 void tampilSearchBarang(){

@@ -56,7 +56,7 @@ void daftarPenjual(struct dataPenjual *dataPenjual, int *data)
 }
 
 // Function to login as a seller
-int loginPenjual(struct dataPenjual *dataPenjual, int data)
+void loginPenjual(struct dataPenjual * dataPenjual, int data)
 {
     char inputEmail[70];
     char inputPassword[48];
