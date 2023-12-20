@@ -170,16 +170,27 @@ void tampilanData (){
                     {
                     case '1':
                         daftarPembeli();
-                        tampilSbgPembeli();
+                        if (daftarPembeli == true){
+                            tampilSbgPembeli();
+                        } else {
+                            tampilSbgPembeli();
+                        }
                         break;
                     case '2':
                         loginPembeli();
-                        tampilSbgPembeli();
-                        break;
-                    case '3':
-                        //
-                        loginPembeli();
-                        tampilSbgPembeli;
+
+                            if(loginPembeli == true){
+                                tampilSbgPembeli();
+                            } else {
+                                lupaPassword();
+
+                                if(lupaPassword == true){
+                                    loginPembeli();
+                                    tampilSbgPembeli();
+                                } else {
+                                    tampilSbgPembeli();
+                                }
+                            }
                         break;
                     case '4':
                         tampilSbgPembeli();
@@ -221,7 +232,7 @@ void tampilSbgPenjual () {
         switch (choice6 [0]){
 
         case '1':
-            tambahItemPenjual();
+            addProduct();
             break;
         case '2':
             tampilItem();
@@ -258,9 +269,11 @@ void tampilItem(){
 
         switch (choice4 [0]){
 
-        case '1': // edit data produk yang sudah diinputkan 
+        case '1':
+                editProduct(); // edit data produk yang sudah diinputkan 
                 break;
-        case '2': // menghapus data produk 
+        case '2':
+                deleteProduct(); // menghapus data produk 
                 break;
         case 'E':// keluar program
                 break;
@@ -302,12 +315,26 @@ void tampilSbgPembeli() {
 
         printf("1. searching\n");
         printf("2. keranjang\n");
-        printf("3. pesan\n");
-        printf("4. notifikasi\n");
-        printf("5. setting\n");
+        printf("3. setting\n");
         printf("E. exit");
         printf("Pilihan Anda: ");
         fgets(choice7, sizeof(choice7), stdin);
+
+        switch (choice7 [0]){
+
+            case '1':
+                    searchProduct();
+                    break;
+            case '2':
+                    tampilanKeranjang();
+                    break;
+            case '3':
+                    settingPembeli();
+                    break;
+            case 'e'||'E':
+                    tandaExit();
+                    break;
+        }
 
     } while (choice7 != 'e' || choice7 != 'E');
 }
@@ -354,7 +381,7 @@ void tampilanProfilePenjual(){
 
     do{
 
-        printf("%c", &*dataPenjual.nama ); // nama toko
+        printf("%c", *data.nama ); // nama toko
         printf("1. Daftar produk\n"); // semua produk penjual
         printf("2. Tentang penjual\n"); // informasi tentang nama toko 
         printf("B. back\n"); // kembali ke searching
