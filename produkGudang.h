@@ -10,6 +10,26 @@ struct Product {
 
 };
 
+void swap (){
+
+}
+
+int partition(){
+
+}
+
+void quickSort(){
+
+}
+
+int compareAscending(){
+
+}
+
+int compareDescending (){
+    
+}
+
 void addProduct () {
 
 }

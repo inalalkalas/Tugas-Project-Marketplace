@@ -6,12 +6,6 @@
 #include "dataPenjual.h"
 #include "produkGudang.h"
 
-// struct pada data
-struct All {
-    char namaBarangPenjual [50]; 
-    char namaBarangPembeli [50];
-    int hargaBarangJual, hargaBarangBeli;
-};
 
 // fungsi untuk kembali ke menu 
 void tandaReturn(char choieceR){
