@@ -212,6 +212,25 @@ void tampilSbgPembeli()
 }*/
 
 // menampilkan isi pada keranjang 
+void tambahitem();
+void removeItem();
+void removeProduk();
+void tampilanKeranjang();
+
+void tambahitem() {
+    // Implement logic to add an item to the shopping cart or product list
+    printf("Implement tambahitem() logic here\n");
+}
+
+void removeItem() {
+    // Implement logic to remove an item from the shopping cart or product list
+    printf("Implement removeItem() logic here\n");
+}
+
+void removeProduk() {
+    // Implement logic to delete a product from the system
+    printf("Implement removeProduk() logic here\n");
+}
 void tampilanKeranjang()
 {
     int choice2;
@@ -229,12 +248,15 @@ void tampilanKeranjang()
         switch (choice2)
         {
         case 1:
+            tambahItem();
             printf("Implement tambahitem() logic here\n");
             break;
         case 2:
+            RemoveItem();
             printf("Implement removeItem() logic here\n");
             break;
         case 3:
+            Remove();
             printf("Implement deleteProduk() logic here\n");
             break;
         case 4:
