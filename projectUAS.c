@@ -8,6 +8,36 @@
 //#include "produkGudang.h"
 
 // menampilkan data pada penjual
+void addProduct();
+void tampilItem();
+void estimasiRestock();
+void restock();
+void settingPenjual();
+
+void addProduct() {
+    // Implementasi logika menambahkan produk
+    printf("Implementasi logika menambahkan produk\n");
+}
+
+void tampilItem() {
+    // Implementasi logika menampilkan data produk
+    printf("Implementasi logika menampilkan data produk\n");
+}
+
+void estimasiRestock() {
+    // Implementasi logika menampilkan estimasi restock
+    printf("Implementasi logika menampilkan estimasi restock\n");
+}
+
+void restock() {
+    // Implementasi logika restock
+    printf("Implementasi logika restock\n");
+}
+
+void settingPenjual() {
+    // Implementasi logika setting penjual
+    printf("Implementasi logika setting penjual\n");
+}
 void tampilSbgPenjual () 
 {
     int choice6;
@@ -27,22 +57,24 @@ void tampilSbgPenjual ()
         switch (choice6){
 
         case 1:
+            addProduct();
             printf("add product");
-            //addProduct();
             break;
         case 2:
+            tampilItem();
             printf("melihat");
-            //tampilItem();
             break;
         case 3:
+            estimasiRestock();
             printf("estimasi");
             break;
         case 4:
+            restock();
             printf("restock");
             break;
-        case 5: 
+        case 5:
+            settingPenjual(); 
             printf("setting");
-            //settingPenjual();
             break;
         case 6:
             return 0;
