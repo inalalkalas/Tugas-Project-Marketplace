@@ -81,10 +81,11 @@ void tampilSbgPenjual ()
         case '2':
                 deleteProduct(); // menghapus data produk 
                 break;
-        case 'E':// keluar program
+        case 'E':
+                printf("Exiting...\n");           
                 break;
         default:
-
+               printf("Pilihan tidak valid. Silakan coba lagi.\n"); 
         }
 
     } while (choice4 != 'e' || choice4 != 'E');
