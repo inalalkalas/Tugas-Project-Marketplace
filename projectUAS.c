@@ -8,16 +8,10 @@
 //#include "produkGudang.h"
 
 // menampilkan data pada penjual
-void addProduct();
 void tampilItem();
 void estimasiRestock();
 void restock();
 void settingPenjual();
-
-void addProduct() {
-    // Implementasi logika menambahkan produk
-    printf("Implementasi logika menambahkan produk\n");
-}
 
 void tampilItem() {
     // Implementasi logika menampilkan data produk
