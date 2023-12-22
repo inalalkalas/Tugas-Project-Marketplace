@@ -164,6 +164,19 @@ void settingPenjual()
 
 
 // menampilkan data pada pembeli
+void tampilanKeranjang();
+void settingPembeli();
+
+void tampilanKeranjang() {
+    // Implementasi logika tampilan keranjang
+    printf("Implementasi logika tampilan keranjang\n");
+}
+
+void settingPembeli() {
+    // Implementasi logika setting pembeli
+    printf("Implementasi logika setting pembeli\n");
+}
+
 void tampilSbgPembeli() 
 {
     int choice7;
