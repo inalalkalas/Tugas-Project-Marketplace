@@ -185,6 +185,28 @@ void tampilSbgPembeli()
         printf("E. exit\n");
         fgets(choice5, sizeof(choice5), stdin);
 
+        swich (choice5) {
+            case 'S':
+            case 's':
+                printf("Search\n");
+                break;
+            case '1':
+                printf("Urutkan dari Harga Tertinggi\n");
+                break;
+            case '2':
+                printf("Urutkan dari Harga Terendah\n");
+                break;
+            case 'B':
+            case 'b':
+                printf("Back to previous menu\n");
+                break;
+            case 'E':
+            case 'e':
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
 
     } while (choice5 != 'e' || choice5 != 'E');
 }*/
