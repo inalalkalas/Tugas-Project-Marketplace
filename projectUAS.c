@@ -360,13 +360,13 @@ void settingPembeli()
         switch (choice1)
         {
             case 1: 
-                //tampilnama();
+                tampilnama();
                 break;
             case 2:
-                //alamatNama();
+                alamatNama();
                 break;
             case 3:
-                //nomorHP();
+                nomorHP();
                 break;
             case 4:
                 return -1;
