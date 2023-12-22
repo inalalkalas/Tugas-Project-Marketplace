@@ -3,7 +3,6 @@
 #include "dataPenjual.h"
 #include <stdlib.h>
 
-
 struct dataPenjual
 {
     char nama[100];
@@ -22,85 +21,80 @@ void clearNewline()
 }
 
 // Function to register as a seller
-void daftarPenjual(struct dataPenjual *dataPenjual, int *data)
+void daftarPenjual(DataPenjual *dataPenjual, int *data_DafPJ)
 {
+    int *dataDaf = 0;
+
     clearNewline(); // Clear newline buffer
 
     printf("Daftar\n");
 
     printf("Masukan Nama Toko: ");
-    fgets(dataPenjual[*data].nama, sizeof(dataPenjual[*data].nama), stdin);
+    fgets(dataPenjual[*data_DafPJ].nama, sizeof(dataPenjual[*data_DafPJ].nama), stdin);
 
     printf("Masukan No Handphone: ");
-    fgets(dataPenjual[*data].nomor, sizeof(dataPenjual[*data].nomor), stdin);
+    fgets(dataPenjual[*data_DafPJ].nomor, sizeof(dataPenjual[*data_DafPJ].nomor), stdin);
 
     printf("Masukan Alamat: ");
-    fgets(dataPenjual[*data].alamat, sizeof(dataPenjual[*data].alamat), stdin);
+    fgets(dataPenjual[*data_DafPJ].alamat, sizeof(dataPenjual[*data_DafPJ].alamat), stdin);
 
     printf("Masukan Email: ");
-    fgets(dataPenjual[*data].email, sizeof(dataPenjual[*data].email), stdin);
+    fgets(dataPenjual[*data_DafPJ].email, sizeof(dataPenjual[*data_DafPJ].email), stdin);
 
     printf("Masukan Password: ");
-    fgets(dataPenjual[*data].password, sizeof(dataPenjual[*data].password), stdin);
+    fgets(dataPenjual[*data_DafPJ].password, sizeof(dataPenjual[*data_DafPJ].password), stdin);
 
     // Open file in append mode
     FILE *file = fopen("seller_data.txt", "a");
     if (file != NULL)
     {
         // Save data to the file
-        fprintf(file, "%s|%s|%s|%s|%s\n", dataPenjual[*data].nama, dataPenjual[*data].nomor, dataPenjual[*data].alamat, dataPenjual[*data].email, dataPenjual[*data].password);
+        fprintf(file, "%s|%s|%s|%s|%s\n", dataPenjual[*data_DafPJ].nama, dataPenjual[*data_DafPJ].nomor, dataPenjual[*data_DafPJ].alamat, dataPenjual[*data_DafPJ].email, dataPenjual[*data_DafPJ].password);
         fclose(file);
     }
 
-    (*data)++; // Increment the data index
+    (*data_DafPJ)++; // Increment the data index
 }
 
 // Function to login as a seller
-void loginPenjual(struct dataPenjual * dataPenjual, int data)
+int loginPenjual(DataPenjual *dataPenjual, int *data_LogPJ, int numRegistrations)
 {
     char inputEmail[70];
     char inputPassword[48];
 
     clearNewline();
 
-    printf("Masukan Email: ");
+    printf("Masukkan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);
 
-    for (int i = 0; i < data; i++)
-    {
-        if (strcmp(inputEmail, dataPenjual[i].email) == 0)
-        {
-            printf("Masukan Password: ");
+    for (int i = 0; i < numRegistrations; i++) {
+        if (strcmp(inputEmail, dataPenjual[i].email) == 0) {
+            printf("Masukkan Password: ");
             fgets(inputPassword, sizeof(inputPassword), stdin);
 
-            if (strcmp(inputPassword, dataPenjual[i].password) == 0)
-            {
+            if (strcmp(inputPassword, dataPenjual[i].password) == 0) {
                 printf("Login berhasil!\n");
-                return 1; // Login successful
-            }
-            else
-            {
+                return 1; // Login berhasil
+            } else {
                 printf("Password salah!\n");
-                return 0; // Password incorrect
+                return 0; // Password salah
             }
         }
     }
 
     printf("Email tidak ditemukan!\n");
-    return -1; // Email not found
+    return -1; // Email tidak ditemukan
 }
 
 // Function to recover password
-void lupaPassword(struct dataPenjual *dataPenjual, int data)
+void fogPassword(DataPenjual *dataPenjual, int data_FogPJ, int numRegistrations)
 {
     char inputEmail[70];
-
-    clearNewline();
 
     printf("Masukan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);
 
-    for (int i = 0; i < data; i++)
+    for (int i = 0; i < data_FogPJ; i++)
     {
         if (strcmp(inputEmail, dataPenjual[i].email) == 0)
         {
@@ -112,18 +106,3 @@ void lupaPassword(struct dataPenjual *dataPenjual, int data)
 
     printf("Email tidak ditemukan!\n");
 }
-
-// Function to load data from file
-void loadDataFromFile(struct dataPenjual *dataPenjual, int *data)
-{
-    FILE *file = fopen("seller_data.txt", "r");
-    if (file != NULL)
-    {
-        while (fscanf(file, "%[^|]|%[^|]|%[^|]|%[^|]|%[^\n]\n", dataPenjual[*data].nama, dataPenjual[*data].nomor, dataPenjual[*data].alamat, dataPenjual[*data].email, dataPenjual[*data].password) == 5)
-        {
-            (*data)++;
-        }
-        fclose(file);
-    }
-}
-

@@ -2,95 +2,87 @@
 #include <string.h>
 #include "dataPembeli.h"
 
-// membersihkan enter
-void clearNewline() {
+// Membersihkan newline buffer
+void clearNewline() {       
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// struktur
-struct dataPembeli
+// Daftar sebagai pembeli 
+void daftarPembeli(DataPembeli *dataPembeli, int *dataDaf) 
 {
-    char nama [100];
-    char alamat [400];
-    char nomor [30];
-    char email [70];
-    char password [48];
-};
-
-// daftar sebagai pembeli 
-void daftarPembeli(struct dataPembeli * dataPembeli, char * data){
-    clearNewline(); // Clear newline buffer
+    clearNewline(); // Membersihkan newline buffer
 
     printf("Daftar\n");
     
-    printf("Masukan Nama: ");
-    fgets(dataPembeli[*data].nama, sizeof(dataPembeli[*data].nama), stdin);
+    printf("Masukkan Nama: ");
+    fgets(dataPembeli[*dataDaf].nama, sizeof(dataPembeli[*dataDaf].nama), stdin);
     
-    printf("Masukan No Handphone: ");
-    fgets(dataPembeli[*data].nomor, sizeof(dataPembeli[*data].nomor), stdin);
+    printf("Masukkan No Handphone: ");
+    fgets(dataPembeli[*dataDaf].nomor, sizeof(dataPembeli[*dataDaf].nomor), stdin);
 
-    printf("Masukan Alamat: ");
-    fgets(dataPembeli[*data].alamat, sizeof(dataPembeli[*data].alamat), stdin);
+    printf("Masukkan Alamat: ");
+    fgets(dataPembeli[*dataDaf].alamat, sizeof(dataPembeli[*dataDaf].alamat), stdin);
 
-    printf("Masukan Email: ");
-    fgets(dataPembeli[*data].email, sizeof(dataPembeli[*data].email), stdin);
+    printf("Masukkan Email: ");
+    fgets(dataPembeli[*dataDaf].email, sizeof(dataPembeli[*dataDaf].email), stdin);
 
-    printf("Masukan Password: ");
-    fgets(dataPembeli[*data].password, sizeof(dataPembeli[*data].password), stdin);
+    printf("Masukkan Password: ");
+    fgets(dataPembeli[*dataDaf].password, sizeof(dataPembeli[*dataDaf].password), stdin);
 
+    FILE *file = fopen("buyyer_data.txt", "a");
+    if (file != NULL)
+    {
+        // Save data to the file
+        fprintf(file, "%s|%s|%s|%s|%s\n", dataPembeli[*dataDaf].nama, dataPembeli[*dataDaf].nomor, dataPembeli[*dataDaf].alamat, dataPembeli[*dataDaf].email, dataPembeli[*dataDaf].password);
+        fclose(file);
+    }
+
+    // Increment the registration counter
+    (*dataDaf)++;
 }
 
-// login sebagai pembeli
-void loginPembeli(struct dataPembeli *dataPembeli, int data){
-
+// Login sebagai pembeli
+int loginPembeli(DataPembeli *dataPembeli, int data_Log, int numRegistrations) {
     char inputEmail[70];
     char inputPassword[48];
 
     clearNewline();
 
-    printf("Masukan Email: ");
+    printf("Masukkan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);
 
-    for (int i = 0; i < data; i++)
-    {
-        if (strcmp(inputEmail, dataPembeli[i].email) == 0)
-        {
-            printf("Masukan Password: ");
+    for (int i = 0; i < numRegistrations; i++) {
+        if (strcmp(inputEmail, dataPembeli[i].email) == 0) {
+            printf("Masukkan Password: ");
             fgets(inputPassword, sizeof(inputPassword), stdin);
 
-            if (strcmp(inputPassword, dataPembeli[i].password) == 0)
-            {
+            if (strcmp(inputPassword, dataPembeli[i].password) == 0) {
                 printf("Login berhasil!\n");
-                return 1; // Login successful
-            }
-            else
-            {
+                return 1; // Login berhasil
+            } else {
                 printf("Password salah!\n");
-                return 0; // Password incorrect
+                return 0; // Password salah
             }
         }
     }
 
     printf("Email tidak ditemukan!\n");
-    return -1; // Email not found
+    return -1; // Email tidak ditemukan
 }
 
-// Function to recover password
-void lupaPassword(struct dataPembeli *dataPembeli, int data)
-{
+// Function untuk pemulihan password
+void lupaPassword(DataPembeli *dataPembeli, int data_Fog, int numRegistrations) {
     char inputEmail[70];
 
     clearNewline();
 
-    printf("Masukan Email: ");
+    printf("Masukkan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);
 
-    for (int i = 0; i < data; i++)
-    {
-        if (strcmp(inputEmail, dataPembeli[i].email) == 0)
-        {
-            // Simulate sending a recovery email
+    for (int i = 0; i < numRegistrations; i++) {
+        if (strcmp(inputEmail, dataPembeli[i].email) == 0) {
+            // Simulasi pengiriman email pemulihan
             printf("Email pemulihan password telah dikirim ke %s\n", inputEmail);
             return;
         }
