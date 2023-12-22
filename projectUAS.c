@@ -206,13 +206,13 @@ void tampilanKeranjang()
         switch (choice2)
         {
         case 1:
-            //tambahitem()
+            printf("Implement tambahitem() logic here\n");
             break;
         case 2:
-            //removeItem()
+            printf("Implement removeItem() logic here\n");
             break;
         case 3:
-            //deleteProduk()
+            printf("Implement deleteProduk() logic here\n");
             break;
         case 4:
             return -1;
