@@ -109,6 +109,27 @@ void settingPenjual()
         printf("Pilihan Anda: ");
         fgets(choice8, sizeof(choice8), stdin);
 
+        switch (choice8){
+            case 1:
+                   printf("Masukan Nama: ");
+                   break;
+            case 2: 
+                   printf("Masukan Alamat: ");
+                   break;
+            case 3:        
+                   printf("Masukan No.Handphone: ");
+                   break;
+            case 'B':
+            case 'b':
+                     printf("Back to seller menu\n");
+                     break;
+            case 'E':
+            case 'e':
+                     printf("Exiting...\n");
+                     break;
+            default:
+                    printf("Pilihan tidak valid. Silakan coba lagi.\n"); 
+        }             
 
     } while (choice8 != 'e' || choice8 != 'E');
 }*/
