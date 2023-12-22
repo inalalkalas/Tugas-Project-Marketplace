@@ -38,6 +38,7 @@ void settingPenjual() {
     // Implementasi logika setting penjual
     printf("Implementasi logika setting penjual\n");
 }
+
 void tampilSbgPenjual () 
 {
     int choice6;
@@ -263,6 +264,7 @@ void removeProduk() {
     // Implement logic to delete a product from the system
     printf("Implement removeProduk() logic here\n");
 }
+
 void tampilanKeranjang()
 {
     int choice2;
@@ -321,6 +323,25 @@ void tampilanKeranjang()
 }*/
 
 // menampilkan settingan untuk penjual melengkapi biodata
+void tampilnama();
+void alamatNama();
+void nomorHP();
+
+void tampilnama() {
+    // Implementasi logika menampilkan nama pembeli
+    printf("Implementasi logika menampilkan nama pembeli\n");
+}
+
+void alamatNama() {
+    // Implementasi logika menampilkan alamat pembeli
+    printf("Implementasi logika menampilkan alamat pembeli\n");
+}
+
+void nomorHP() {
+    // Implementasi logika menampilkan nomor handphone pembeli
+    printf("Implementasi logika menampilkan nomor handphone pembeli\n");
+}
+
 void settingPembeli()
 {
     int choice1;
