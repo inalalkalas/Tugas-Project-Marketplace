@@ -2,16 +2,14 @@
 #include <string.h>
 #include "dataPembeli.h"
 
-// Membersihkan newline buffer
-void clearNewline() {       
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
+DataPembeli dataPembeli [MAX_PEMBELI];
+int dataDaf[MAX_PEMBELI];
+int data_Log[MAX_PEMBELI];
+int data_Fog[MAX_PEMBELI];
 
 // Daftar sebagai pembeli 
-void daftarPembeli(DataPembeli *dataPembeli, int *dataDaf) 
+void daftarPembeli(DataPembeli *dataPembeli, int *dataDaf, int *numRegistrations) 
 {
-    clearNewline(); // Membersihkan newline buffer
 
     printf("Daftar\n");
     
@@ -47,8 +45,6 @@ int loginPembeli(DataPembeli *dataPembeli, int data_Log, int numRegistrations) {
     char inputEmail[70];
     char inputPassword[48];
 
-    clearNewline();
-
     printf("Masukkan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);
 
@@ -74,8 +70,6 @@ int loginPembeli(DataPembeli *dataPembeli, int data_Log, int numRegistrations) {
 // Function untuk pemulihan password
 void lupaPassword(DataPembeli *dataPembeli, int data_Fog, int numRegistrations) {
     char inputEmail[70];
-
-    clearNewline();
 
     printf("Masukkan Email: ");
     fgets(inputEmail, sizeof(inputEmail), stdin);

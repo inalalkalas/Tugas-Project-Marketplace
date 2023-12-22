@@ -64,7 +64,7 @@ void addProduct(FILE *file) {
     printf("Masukkan nama produk: ");
     scanf("%s", product.name);
     printf("Masukkan harga produk: ");
-    scanf("%f", &product.price);
+    scanf("%lf", &product.price);
 
     // Mendapatkan tanggal saat ini
     getCurrentDate(product.restock_date);
@@ -72,7 +72,7 @@ void addProduct(FILE *file) {
     // Menetapkan tanggal kedaluwarsa misalnya 30 hari dari tanggal restock
     time_t t = time(NULL);
     struct tm *expiry_time = localtime(&t);
-    expiry_time->tm_mday += 30; // Tambah 30 hari
+    expiry_time->tm_mday += 250; // Tambah 30 hari
     mktime(expiry_time);
 
     // Format tanggal kedaluwarsa sebagai DD-MM-YYYY

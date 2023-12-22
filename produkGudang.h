@@ -10,7 +10,6 @@ typedef struct {
 
 } PROduct;
 
-void clearNewline(void);
 
 void swap(PROduct *a, PROduct *b);
 int partition(PROduct arr[], int low, int high, int (*compare)(float, float));

@@ -18,7 +18,6 @@ typedef struct{
 
 } DataPenjual;
 
-// membersihkan enter
 void clearNewline(void);
 
 // daftar sebagai penjual

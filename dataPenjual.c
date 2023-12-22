@@ -3,17 +3,14 @@
 #include "dataPenjual.h"
 #include <stdlib.h>
 
-struct dataPenjual
-{
-    char nama[100];
-    char alamat[400];
-    char nomor[30];
-    char email[70];
-    char password[48];
-};
+DataPenjual dataPenjual [MAX_PEMBELI];
+int data_LogPJ[MAX_PEMBELI];
+int data_LogPJ[MAX_PEMBELI];
+int data_FogPJ[MAX_PEMBELI];
+
 
 // Function to clear newline
-void clearNewline()
+void clearNewline(void)
 {
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
@@ -21,11 +18,10 @@ void clearNewline()
 }
 
 // Function to register as a seller
-void daftarPenjual(DataPenjual *dataPenjual, int *data_DafPJ)
+void daftarPenjual(DataPenjual *dataPenjual, int *data_DafPJ, int *numRegistrations)
 {
-    int *dataDaf = 0;
 
-    clearNewline(); // Clear newline buffer
+    clearNewline();
 
     printf("Daftar\n");
 
@@ -57,7 +53,7 @@ void daftarPenjual(DataPenjual *dataPenjual, int *data_DafPJ)
 }
 
 // Function to login as a seller
-int loginPenjual(DataPenjual *dataPenjual, int *data_LogPJ, int numRegistrations)
+int loginPenjual(DataPenjual *dataPenjual, int data_LogPJ, int numRegistrations)
 {
     char inputEmail[70];
     char inputPassword[48];

@@ -19,7 +19,6 @@ typedef struct
 } DataPembeli;
 
 // membersihkan enter
-void clearNewline(void);
 
 // daftar sebagai pembeli 
 void daftarPembeli(DataPembeli *dataPembeli, int *dataDaf, int *numRegistrations);
