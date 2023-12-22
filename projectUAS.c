@@ -240,23 +240,11 @@ void tampilSbgPembeli()
 
 // menampilkan isi pada keranjang 
 void tambahitem();
-void removeItem();
-void removeProduk();
 void tampilanKeranjang();
 
 void tambahitem() {
     // Implement logic to add an item to the shopping cart or product list
     printf("Implement tambahitem() logic here\n");
-}
-
-void removeItem() {
-    // Implement logic to remove an item from the shopping cart or product list
-    printf("Implement removeItem() logic here\n");
-}
-
-void removeProduk() {
-    // Implement logic to delete a product from the system
-    printf("Implement removeProduk() logic here\n");
 }
 
 void tampilanKeranjang()
