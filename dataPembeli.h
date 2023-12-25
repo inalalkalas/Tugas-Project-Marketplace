@@ -6,32 +6,39 @@
 #define MAX_EMAIL   70
 #define MAX_PASSWORD 48
 #define MAX_PEMBELI 100
+#define DATABASE_FILE "buyyer_data.txt"
 
-// struktur
+// strukturI
 typedef struct
 {
-    char nama [MAX_NAMA];
-    char alamat [MAX_ALAMAT];
-    char nomor [MAX_NOMOR];
-    char email [MAX_EMAIL];
-    char password [MAX_PASSWORD];
+    char nama_pembeli[MAX_NAMA];
+    char alamat_pembeli[MAX_ALAMAT];
+    char nomor_pembeli[MAX_NOMOR];
+    char email[MAX_EMAIL];
+    char password_pembeli[MAX_PASSWORD];
 
 } DataPembeli;
 
 // membersihkan enter
+// Add this function prototype
+
+void encryptPassword(char *password);
 
 // daftar sebagai pembeli 
-void daftarPembeli(DataPembeli *dataPembeli, int *dataDaf, int *numRegistrations);
+void daftarPembeli();
+
 
 // login sebagai pembeli
-int loginPembeli(DataPembeli *dataPembeli, int data_Log, int numRegistrations);
+int loginUser(char *email, char *password_pembeli);
+
 
 // lupa password
-void lupaPassword(DataPembeli *dataPembeli, int data_Fog, int numRegistrations);
+void forgotPassword();
+
+void display_name(char *nama_pembeli);
+void display_alamat(char *alamat_pembeli);
+void display_nomor(char *nomor_pembeli);
 
 extern DataPembeli dataPembeli [MAX_PEMBELI];
-extern int dataDaf[MAX_PEMBELI];
-extern int data_Log[MAX_PEMBELI];
-extern int data_Fog[MAX_PEMBELI];
 
 #endif

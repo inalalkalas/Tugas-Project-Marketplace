@@ -1,5 +1,7 @@
 #ifndef PRODUKGUDANG_H
 #define PRODUKGUDANG_H
+#define DATABASE_FILE "data_produk.txt"
+#define MAX_PRODUCTS 100
 
 typedef struct {
 
@@ -27,6 +29,13 @@ void searchProduct(FILE *file, const char *productName);
 
 void editProduct(FILE *file, const char *productName);
 void deleteProduct(FILE *file, const char *productName);
+void viewProducts(FILE *file);
+
+void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProducts, int jumlahAllProducts);
+void removeItem(PROduct *keranjang, int *jumlahProduk);
+void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName);
+
+void tampilanKeranjang(const PROduct *keranjang, int jumlahProduk);
 
 extern PROduct product[100];
 

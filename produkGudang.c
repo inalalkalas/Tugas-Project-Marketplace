@@ -190,6 +190,154 @@ void deleteProduct(FILE *file, const char *productName) {
     }
 }
 
+void viewProducts(FILE *file) {
+    PROduct product;
+    
+    rewind(file);
+    
+    printf("Product List:\n");
+    printf("%-20s%-10s%-15s%-15s\n", "Name", "Price", "Restock Date", "Expiry Date");
+    printf("--------------------------------------------------------\n");
+
+    while (fscanf(file, "%s %f %s %s", product.name, &product.price, product.restock_date, product.expiry_date) != EOF) {
+        printf("%-20s%-10.2f%-15s%-15s\n", product.name, product.price, product.restock_date, product.expiry_date);
+    }
+
+    printf("--------------------------------------------------------\n");
+}
+
+void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProducts, int jumlahAllProducts) {
+    if (*jumlahProduk == MAX_PRODUCTS) {
+        printf("Keranjang penuh. Tidak dapat menambah item lebih banyak.\n");
+        return;
+    }
+
+    char productName[50];
+    printf("Masukkan nama produk yang ingin ditambahkan ke keranjang: ");
+    scanf("%s", productName);
+
+    // Search for the product in the available products
+    int found = 0;
+    for (int i = 0; i < jumlahAllProducts; i++) {
+        if (strcmp(allProducts[i].name, productName) == 0) {
+            // Add the product to the cart
+            keranjang[*jumlahProduk] = allProducts[i];
+            (*jumlahProduk)++;
+            printf("Produk berhasil ditambahkan ke keranjang.\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Produk tidak ditemukan.\n");
+    }
+}
+
+void removeItem(PROduct *keranjang, int *jumlahProduk) {
+    if (*jumlahProduk == 0) {
+        printf("Keranjang kosong. Tidak dapat menghapus item.\n");
+        return;
+    }
+
+    char productName[50];
+    printf("Masukkan nama produk yang ingin dihapus dari keranjang: ");
+    scanf("%s", productName);
+
+    int found = 0;
+    for (int i = 0; i < *jumlahProduk; i++) {
+        if (strcmp(keranjang[i].name, productName) == 0) {
+            // Remove the product from the cart
+            for (int j = i; j < (*jumlahProduk - 1); j++) {
+                keranjang[j] = keranjang[j + 1];
+            }
+            (*jumlahProduk)--;
+            printf("Produk berhasil dihapus dari keranjang.\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Produk tidak ditemukan dalam keranjang.\n");
+    }
+}
 
 
+void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName) {
+    if (*jumlahProduk == 0) {
+        printf("Keranjang kosong. Tidak dapat menghapus produk.\n");
+        return;
+    }
+
+    int found = 0;
+
+    // Remove the product from the cart
+    for (int i = 0; i < *jumlahProduk; i++) {
+        if (strcmp(keranjang[i].name, productName) == 0) {
+            // Remove the product from the cart
+            for (int j = i; j < (*jumlahProduk - 1); j++) {
+                keranjang[j] = keranjang[j + 1];
+            }
+            (*jumlahProduk)--;
+            printf("Produk berhasil dihapus dari keranjang.\n");
+            found = 1;
+            break;
+        }
+    }
+
+    // Remove the product from the database file
+    FILE *tempFile = fopen("temp.txt", "w");
+    if (tempFile == NULL) {
+        printf("Error creating temporary file.\n");
+        return;
+    }
+
+    rewind(file);
+    PROduct product;
+
+    while (fscanf(file, "%s %f %s %s", product.name, &product.price, product.restock_date, product.expiry_date) != EOF) {
+        if (strcmp(product.name, productName) == 0) {
+            // Skip writing the product to the temporary file (delete from database)
+            found = 1;
+            continue;
+        }
+
+        // Write non-deleted products to the temporary file
+        fprintf(tempFile, "%s %.2f %s %s\n", product.name, product.price, product.restock_date, product.expiry_date);
+    }
+
+    fclose(tempFile);
+    fclose(file);
+
+    // Remove the original database file
+    remove(DATABASE_FILE);
+
+    // Rename the temporary file to the original database file
+    if (rename("temp.txt", DATABASE_FILE) != 0) {
+        printf("Error renaming temporary file.\n");
+        return;
+    }
+
+    if (!found) {
+        printf("Produk tidak ditemukan dalam keranjang atau database.\n");
+    }
+}
+
+void tampilanKeranjang(const PROduct *keranjang, int jumlahProduk) {
+    printf("\n----- Keranjang Belanja -----\n");
+
+    if (jumlahProduk == 0) {
+        printf("Keranjang kosong.\n");
+    } else {
+        printf("%-20s %-10s\n", "Nama Produk", "Harga");
+        printf("-----------------------------------\n");
+
+        for (int i = 0; i < jumlahProduk; i++) {
+            printf("%-20s %-10.2f\n", keranjang[i].name, keranjang[i].price);
+        }
+    }
+
+    printf("-----------------------------------\n");
+}
 

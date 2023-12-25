@@ -2,103 +2,91 @@
 #include <string.h>
 #include "dataPenjual.h"
 #include <stdlib.h>
+#include "data.h"
 
 DataPenjual dataPenjual [MAX_PEMBELI];
-int data_LogPJ[MAX_PEMBELI];
-int data_LogPJ[MAX_PEMBELI];
-int data_FogPJ[MAX_PEMBELI];
 
-
-// Function to clear newline
-void clearNewline(void)
-{
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+void encryptPassword(char *password) {
+    for (int i = 0; password[i] != '\0'; ++i) {
+        password[i] = password[i] + 1;
+    }
 }
-
 // Function to register as a seller
-void daftarPenjual(DataPenjual *dataPenjual, int *data_DafPJ, int *numRegistrations)
+void daftarPenjual()
 {
 
-    clearNewline();
+    void clearNewline(void);
+
+    DataPenjual dataPenjual;
+    FILE *file = fopen(DATABASE_FILE, "a");   
 
     printf("Daftar\n");
+    
+    printf("Masukkan Nama: ");
+    scanf("%s", dataPenjual.nama_penjual);
 
-    printf("Masukan Nama Toko: ");
-    fgets(dataPenjual[*data_DafPJ].nama, sizeof(dataPenjual[*data_DafPJ].nama), stdin);
+    printf("Masukkan No Handphone: ");
+    scanf("%s", dataPenjual.nomor_penjual);
 
-    printf("Masukan No Handphone: ");
-    fgets(dataPenjual[*data_DafPJ].nomor, sizeof(dataPenjual[*data_DafPJ].nomor), stdin);
+    printf("Masukkan Alamat: ");
+    scanf("%s", dataPenjual.alamat_penjual);
 
-    printf("Masukan Alamat: ");
-    fgets(dataPenjual[*data_DafPJ].alamat, sizeof(dataPenjual[*data_DafPJ].alamat), stdin);
+    printf("Masukkan Email: ");
+    scanf("%s", dataPenjual.email_penjual);
 
-    printf("Masukan Email: ");
-    fgets(dataPenjual[*data_DafPJ].email, sizeof(dataPenjual[*data_DafPJ].email), stdin);
+    printf("Masukkan Password: ");
+    scanf("%s", dataPenjual.password_penjual);
+    encryptPassword(dataPenjual.password_penjual);
 
-    printf("Masukan Password: ");
-    fgets(dataPenjual[*data_DafPJ].password, sizeof(dataPenjual[*data_DafPJ].password), stdin);
+    fprintf(file, "%s|%s|%s|%s|%s\n", dataPenjual.nama_penjual, dataPenjual.nomor_penjual, dataPenjual.alamat_penjual, dataPenjual.email_penjual, dataPenjual.password_penjual);
+   
 
-    // Open file in append mode
-    FILE *file = fopen("seller_data.txt", "a");
-    if (file != NULL)
-    {
-        // Save data to the file
-        fprintf(file, "%s|%s|%s|%s|%s\n", dataPenjual[*data_DafPJ].nama, dataPenjual[*data_DafPJ].nomor, dataPenjual[*data_DafPJ].alamat, dataPenjual[*data_DafPJ].email, dataPenjual[*data_DafPJ].password);
-        fclose(file);
-    }
-
-    (*data_DafPJ)++; // Increment the data index
+    // Increment the registration counter
+    fclose(file);
+ 
 }
 
 // Function to login as a seller
-int loginPenjual(DataPenjual *dataPenjual, int data_LogPJ, int numRegistrations)
+int loginPenjual(char *email_penjual, char *password_penjual)
 {
-    char inputEmail[70];
-    char inputPassword[48];
+    //clearNewline();
+    DataPenjual user;
+    FILE *file = fopen(DATABASE_FILE, "r");
 
-    clearNewline();
-
-    printf("Masukkan Email: ");
-    fgets(inputEmail, sizeof(inputEmail), stdin);
-
-    for (int i = 0; i < numRegistrations; i++) {
-        if (strcmp(inputEmail, dataPenjual[i].email) == 0) {
-            printf("Masukkan Password: ");
-            fgets(inputPassword, sizeof(inputPassword), stdin);
-
-            if (strcmp(inputPassword, dataPenjual[i].password) == 0) {
-                printf("Login berhasil!\n");
-                return 1; // Login berhasil
+    while (fscanf(file, "%s %s %c", user.email_penjual, user.password_penjual) != EOF) {
+        if (strcmp(email_penjual, user.email_penjual) == 0) {
+            encryptPassword(password_penjual);
+            if (strcmp(password_penjual, user.password_penjual) == 0) {
+                fclose(file);
+                return 1; // Pengguna ditemukan
             } else {
-                printf("Password salah!\n");
-                return 0; // Password salah
+                printf("email tidak ditemukan");
             }
         }
     }
-
-    printf("Email tidak ditemukan!\n");
-    return -1; // Email tidak ditemukan
+    fclose(file);
+    return 0; // Pengguna tidak ditemukan
 }
 
 // Function to recover password
-void fogPassword(DataPenjual *dataPenjual, int data_FogPJ, int numRegistrations)
+void fogPassword()
 {
-    char inputEmail[70];
+    clearNewline();
+    DataPenjual user;
+    char email[MAX_EMAIL];
+    FILE *file = fopen(DATABASE_FILE, "r");
 
-    printf("Masukan Email: ");
-    fgets(inputEmail, sizeof(inputEmail), stdin);
+    printf("Masukkan email Anda: ");
+    scanf("%s", email);
 
-    for (int i = 0; i < data_FogPJ; i++)
-    {
-        if (strcmp(inputEmail, dataPenjual[i].email) == 0)
-        {
-            // Simulate sending a recovery email
-            printf("Email pemulihan password telah dikirim ke %s\n", inputEmail);
+    while (fscanf(file, "%s %s %c", user.email_penjual, user.password_penjual) != EOF) {
+        if (strcmp(email, user.email_penjual) == 0) {
+            printf("Password Anda: %s\n", user.password_penjual);
+            fclose(file);
             return;
         }
     }
 
-    printf("Email tidak ditemukan!\n");
+    printf("email tidak ditemukan.\n");
+    fclose(file);
 }
