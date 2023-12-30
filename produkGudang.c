@@ -4,7 +4,11 @@
 #include <time.h>
 #include "produkGudang.h"
 
-// Struktur untuk menyimpan informasi produk
+void clearBufferPK() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 
 // Fungsi untuk menukar dua elemen
 void swap(PROduct *a, PROduct *b) {
@@ -58,32 +62,66 @@ void getCurrentDate(char *date) {
     strftime(date, 15, "%d-%m-%Y", current_time);
 }
 
+void estimateRestockDate(char *restockDate) {
+    time_t t;
+    struct tm *current_time;
+
+    // Get the current time
+    time(&t);
+    current_time = localtime(&t);
+
+    // Add 30 days to the current date for the restock date
+    current_time->tm_mday += 30;
+    mktime(current_time);
+
+    // Format the restock date as DD-MM-YYYY
+    strftime(restockDate, 15, "%d-%m-%Y", current_time);
+}
+
+void calculateExpirationDate(const char *restockDate, char *expirationDate) {
+    struct tm expiration_time;
+
+    // Convert the restock date to a tm structure
+    sscanf(restockDate, "%d-%d-%d", &expiration_time.tm_mday, &expiration_time.tm_mon, &expiration_time.tm_year);
+    expiration_time.tm_mon -= 1; // Adjust month (0-11)
+
+    // Add 10 days to the restock date for the expiration date
+    expiration_time.tm_mday += 10;
+    mktime(&expiration_time);
+
+    // Format the expiration date as DD-MM-YYYY
+    strftime(expirationDate, 15, "%d-%m-%Y", &expiration_time);
+}
+
 void addProduct(FILE *file) {
+    clearBufferPK();
     PROduct product;
 
     printf("Masukkan nama produk: ");
-    scanf("%s", product.name);
+    fgets(product.name, sizeof(product.name), stdin);
+    product.name[strcspn(product.name, "\n")] = '\0'; // Remove trailing newline
     printf("Masukkan harga produk: ");
-    scanf("%lf", &product.price);
+    scanf("%f", &product.price);
 
-    // Mendapatkan tanggal saat ini
+    // Get the current date for restock
     getCurrentDate(product.restock_date);
 
-    // Menetapkan tanggal kedaluwarsa misalnya 30 hari dari tanggal restock
-    time_t t = time(NULL);
-    struct tm *expiry_time = localtime(&t);
-    expiry_time->tm_mday += 250; // Tambah 30 hari
-    mktime(expiry_time);
+    // Estimate restock date (30 days from the current date)
+    estimateRestockDate(product.restock_date);
 
-    // Format tanggal kedaluwarsa sebagai DD-MM-YYYY
-    strftime(product.expiry_date, 15, "%d-%m-%Y", expiry_time);
+    // Calculate expiration date (250 days from the restock date)
+    calculateExpirationDate(product.restock_date, product.expiry_date);
 
-    // Menulis data produk ke dalam file
+    // Write product data to the file
     fprintf(file, "%s %.2f %s %s\n", product.name, product.price, product.restock_date, product.expiry_date);
     printf("Produk berhasil ditambahkan.\n");
+    getchar();
 }
 
-void editProduct(FILE *file, const char *productName) {
+
+void editProduct(FILE *file, const char *productName) 
+{
+    clearBufferPK();
     PROduct product, temp;
     int found = 0;
 
@@ -94,6 +132,7 @@ void editProduct(FILE *file, const char *productName) {
             printf("Masukkan informasi produk yang baru:\n");
             printf("Harga baru: ");
             scanf("%f", &temp.price);
+            getchar();
 
             // Mendapatkan tanggal restock saat ini
             getCurrentDate(temp.restock_date);
@@ -146,11 +185,13 @@ void searchProduct(FILE *file, const char *productName) {
 
 // Fungsi untuk menghapus produk berdasarkan nama
 void deleteProduct(FILE *file, const char *productName) {
+    clearBufferPK();
+
     PROduct product;
     FILE *tempFile;
 
     // Membuka file temporary untuk menulis sementara
-    tempFile = fopen("temp.txt", "w");
+    tempFile = fopen(DATABASE_FILE_PRODUK, "w");
     if (tempFile == NULL) {
         printf("Error creating temporary file.\n");
         return;
@@ -207,6 +248,8 @@ void viewProducts(FILE *file) {
 }
 
 void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProducts, int jumlahAllProducts) {
+    clearBufferPK();
+
     if (*jumlahProduk == MAX_PRODUCTS) {
         printf("Keranjang penuh. Tidak dapat menambah item lebih banyak.\n");
         return;
@@ -214,7 +257,9 @@ void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProduct
 
     char productName[50];
     printf("Masukkan nama produk yang ingin ditambahkan ke keranjang: ");
-    scanf("%s", productName);
+    fgets(productName, sizeof(productName), stdin);
+    productName[strcspn(productName, "\n")] = '\0'; // Remove trailing newline
+    getchar(); 
 
     // Search for the product in the available products
     int found = 0;
@@ -234,7 +279,10 @@ void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProduct
     }
 }
 
-void removeItem(PROduct *keranjang, int *jumlahProduk) {
+void removeItem(PROduct *keranjang, int *jumlahProduk) 
+{
+    clearBufferPK();
+
     if (*jumlahProduk == 0) {
         printf("Keranjang kosong. Tidak dapat menghapus item.\n");
         return;
@@ -242,7 +290,9 @@ void removeItem(PROduct *keranjang, int *jumlahProduk) {
 
     char productName[50];
     printf("Masukkan nama produk yang ingin dihapus dari keranjang: ");
-    scanf("%s", productName);
+    fgets(productName, sizeof(productName), stdin);
+    productName[strcspn(productName, "\n")] = '\0'; // Remove trailing newline
+    getchar();
 
     int found = 0;
     for (int i = 0; i < *jumlahProduk; i++) {
@@ -264,7 +314,10 @@ void removeItem(PROduct *keranjang, int *jumlahProduk) {
 }
 
 
-void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName) {
+void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName) 
+{
+    clearBufferPK();
+
     if (*jumlahProduk == 0) {
         printf("Keranjang kosong. Tidak dapat menghapus produk.\n");
         return;
@@ -287,7 +340,7 @@ void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char 
     }
 
     // Remove the product from the database file
-    FILE *tempFile = fopen("temp.txt", "w");
+    FILE *tempFile = fopen(DATABASE_FILE_PRODUK, "w");
     if (tempFile == NULL) {
         printf("Error creating temporary file.\n");
         return;
@@ -311,10 +364,10 @@ void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char 
     fclose(file);
 
     // Remove the original database file
-    remove(DATABASE_FILE);
+    remove(DATABASE_FILE_PRODUK);
 
     // Rename the temporary file to the original database file
-    if (rename("temp.txt", DATABASE_FILE) != 0) {
+    if (rename("temp.txt", DATABASE_FILE_PRODUK) != 0) {
         printf("Error renaming temporary file.\n");
         return;
     }
@@ -340,4 +393,3 @@ void tampilanKeranjang(const PROduct *keranjang, int jumlahProduk) {
 
     printf("-----------------------------------\n");
 }
-

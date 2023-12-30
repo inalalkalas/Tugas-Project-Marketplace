@@ -6,7 +6,7 @@
 #define MAX_EMAIL   70
 #define MAX_PASSWORD 48
 #define MAX_PEMBELI 100
-#define DATABASE_FILE "buyyer_data.txt"
+#define DATABASE_FILE_BUYYER "buyyer_data.txt"
 
 // strukturI
 typedef struct
@@ -25,6 +25,7 @@ typedef struct
 void encryptPassword(char *password);
 
 // daftar sebagai pembeli 
+void clearBufferPM();
 void daftarPembeli();
 
 

@@ -1,6 +1,6 @@
 #ifndef PRODUKGUDANG_H
 #define PRODUKGUDANG_H
-#define DATABASE_FILE "data_produk.txt"
+#define DATABASE_FILE_PRODUK "data_produk.txt"
 #define MAX_PRODUCTS 100
 
 typedef struct {
@@ -12,6 +12,8 @@ typedef struct {
 
 } PROduct;
 
+// clear NewLine
+void clearBufferPK();
 
 void swap(PROduct *a, PROduct *b);
 int partition(PROduct arr[], int low, int high, int (*compare)(float, float));
@@ -22,6 +24,8 @@ int compareAscending(float a, float b);
 int compareDescending(float a, float b);
 
 void getCurrentDate(char *date);
+void estimateRestockDate(char *restockDate);
+void calculateExpirationDate(const char *restockDate, char *expirationDate);
 
 void addProduct(FILE *file);
 

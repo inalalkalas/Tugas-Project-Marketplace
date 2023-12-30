@@ -2,42 +2,55 @@
 #include <string.h>
 #include <stdlib.h>
 #include "dataPembeli.h"
-#include "data.h"
 
 DataPembeli dataPembeli [MAX_PEMBELI];
 
 
-/*void encryptPassword(char *password) {
+void encryptPassword(char *password) {
     for (int i = 0; password[i] != '\0'; ++i) {
         password[i] = password[i] + 1;
     }
-}*/
+}
+
+void clearBufferPM() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 // Daftar sebagai pembeli 
 void daftarPembeli() 
 {
-    void clearNewline(void);
-
+    clearBufferPM();
     DataPembeli dataPembeli;
-    FILE *file = fopen(DATABASE_FILE, "a");   
+    FILE *file = fopen(DATABASE_FILE_BUYYER, "a");   
 
     printf("Daftar\n");
     
+    // Replace scanf for name with fgets
     printf("Masukkan Nama: ");
-    scanf("%s", dataPembeli.nama_pembeli);
+    fgets(dataPembeli.nama_pembeli, sizeof(dataPembeli.nama_pembeli), stdin);
+    dataPembeli.nama_pembeli[strcspn(dataPembeli.nama_pembeli, "\n")] = '\0'; // Remove newline
 
+    // Replace scanf for number with fgets
     printf("Masukkan No Handphone: ");
-    scanf("%s", dataPembeli.nomor_pembeli);
+    fscanf(dataPembeli.nomor_pembeli, sizeof(dataPembeli.nomor_pembeli), stdin);
+    dataPembeli.nomor_pembeli[strcspn(dataPembeli.nomor_pembeli, "\n")] = '\0'; // Remove newline
 
+    // Replace scanf for address with fgets
     printf("Masukkan Alamat: ");
-    scanf("%s", dataPembeli.alamat_pembeli);
+    fgets(dataPembeli.alamat_pembeli, sizeof(dataPembeli.alamat_pembeli), stdin);
+    dataPembeli.alamat_pembeli[strcspn(dataPembeli.alamat_pembeli, "\n")] = '\0'; // Remove newline
 
+    // Replace scanf for email with fgets
     printf("Masukkan Email: ");
-    scanf("%s", dataPembeli.email);
+    fgets(dataPembeli.email, sizeof(dataPembeli.email), stdin);
+    dataPembeli.email[strcspn(dataPembeli.email, "\n")] = '\0'; // Remove newline
 
+    // Replace scanf for password with fgets
     printf("Masukkan Password: ");
-    scanf("%s", dataPembeli.password_pembeli);
-    //encryptPassword(dataPembeli.password_pembeli);
+    fgets(dataPembeli.password_pembeli, sizeof(dataPembeli.password_pembeli), stdin);
+    dataPembeli.password_pembeli[strcspn(dataPembeli.password_pembeli, "\n")] = '\0'; // Remove newline
+    encryptPassword(dataPembeli.password_pembeli);
 
     fprintf(file, "%s|%s|%s|%s|%s\n", dataPembeli.nama_pembeli, dataPembeli.nomor_pembeli, dataPembeli.alamat_pembeli, dataPembeli.email, dataPembeli.password_pembeli);
    
@@ -46,14 +59,11 @@ void daftarPembeli()
     fclose(file);
 }
 
-// Add this function definition
-
 // Login sebagai pembeli
 
 int loginUser(char *email, char *password_pembeli) {
-    clearNewline();
     DataPembeli user;
-    FILE *file = fopen(DATABASE_FILE, "r");
+    FILE *file = fopen(DATABASE_FILE_BUYYER, "r");
 
     while (fscanf(file, "%s %s %c", user.email, user.password_pembeli) != EOF) {
         if (strcmp(email, user.email) == 0) {
@@ -72,10 +82,9 @@ int loginUser(char *email, char *password_pembeli) {
 
 // Function untuk pemulihan password
 void forgotPassword() {
-    clearNewline();
     DataPembeli user;
     char email[MAX_EMAIL];
-    FILE *file = fopen(DATABASE_FILE, "r");
+    FILE *file = fopen(DATABASE_FILE_BUYYER, "r");
 
     printf("Masukkan email Anda: ");
     scanf("%s", email);
@@ -90,16 +99,4 @@ void forgotPassword() {
 
     printf("email tidak ditemukan.\n");
     fclose(file);
-}
-
-void display_name(char *nama_pembeli) {
-    printf("Nama: %s\n", nama_pembeli);
-}
-
-void display_alamat(char *alamat_pembeli){
-    printf("Alamat: %s \n", alamat_pembeli);
-}
-
-void display_nomor(char *nomor_pembeli){
-    printf("Nomor Handphone: %s \n", nomor_pembeli);
 }

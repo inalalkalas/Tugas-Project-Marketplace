@@ -22,6 +22,7 @@ typedef struct{
 
 
 // daftar sebagai penjual
+void clearBufferPJ();
 void daftarPenjual();
 
 // login sebagai Penjaul jika sudah mempunyai akun
