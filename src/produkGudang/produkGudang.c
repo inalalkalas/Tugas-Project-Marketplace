@@ -36,6 +36,7 @@ int partition(PROduct arr[], int low, int high, int (*compare)(float, float)) {
 void quickSort(PROduct arr[], int low, int high, int (*compare)(float, float)) {
     if (low < high) {
         int pi = partition(arr, low, high, compare);
+
         quickSort(arr, low, pi - 1, compare);
         quickSort(arr, pi + 1, high, compare);
     }
@@ -93,6 +94,7 @@ void calculateExpirationDate(const char *restockDate, char *expirationDate) {
     strftime(expirationDate, 15, "%d-%m-%Y", &expiration_time);
 }
 
+// tambha produk sebagai penjual
 void addProduct(FILE *file) {
     clearBufferPK();
     PROduct product;
@@ -118,7 +120,7 @@ void addProduct(FILE *file) {
     getchar();
 }
 
-
+// mengedit produk untuk penjual
 void editProduct(FILE *file, const char *productName) 
 {
     clearBufferPK();
@@ -231,6 +233,7 @@ void deleteProduct(FILE *file, const char *productName) {
     }
 }
 
+// untuk menampilkan isi produk dari penjual yang sudah ditambahkan ataupun belum
 void viewProducts(FILE *file) {
     PROduct product;
     
@@ -247,6 +250,7 @@ void viewProducts(FILE *file) {
     printf("--------------------------------------------------------\n");
 }
 
+// untuk menambah item pada keranjang
 void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProducts, int jumlahAllProducts) {
     clearBufferPK();
 
@@ -278,6 +282,7 @@ void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProduct
     }
 }
 
+// mengurangi produk pada keranjang
 void removeItem(PROduct *keranjang, int *jumlahProduk) 
 {
     clearBufferPK();
@@ -312,7 +317,7 @@ void removeItem(PROduct *keranjang, int *jumlahProduk)
     }
 }
 
-
+// untuk menghapus produk pada keranjang
 void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName) 
 {
     clearBufferPK();
@@ -376,6 +381,7 @@ void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char 
     }
 }
 
+// menampilkan produk pada keranjang
 void tampilanKeranjang(const PROduct *keranjang, int jumlahProduk) {
     printf("\n----- Keranjang Belanja -----\n");
 
