@@ -72,7 +72,7 @@ void estimateRestockDate(char *restockDate) {
     current_time = localtime(&t);
 
     // Add 30 days to the current date for the restock date
-    current_time->tm_mday += 30;
+    current_time->tm_mon += 2;
     mktime(current_time);
 
     // Format the restock date as DD-MM-YYYY
@@ -87,7 +87,7 @@ void calculateExpirationDate(const char *restockDate, char *expirationDate) {
     expiration_time.tm_mon -= 1; // Adjust month (0-11)
 
     // Add 10 days to the restock date for the expiration date
-    expiration_time.tm_mday += 30;
+    expiration_time.tm_year += 30;
     mktime(&expiration_time);
 
     // Format the expiration date as DD-MM-YYYY
