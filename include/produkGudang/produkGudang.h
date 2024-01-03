@@ -1,6 +1,6 @@
 #ifndef PRODUKGUDANG_H
 #define PRODUKGUDANG_H
-#define DATABASE_FILE_PRODUK "../bin/produkGudang/data_produk.txt"
+#define DATABASE_FILE_PRODUK "data_produk.txt"
 #define MAX_PRODUCTS 100
 
 typedef struct {

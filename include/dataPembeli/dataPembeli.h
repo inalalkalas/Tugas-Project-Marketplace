@@ -6,7 +6,7 @@
 #define MAX_EMAIL   70
 #define MAX_PASSWORD 48
 #define MAX_PEMBELI 100
-#define DATABASE_FILE_BUYYER "../bin/dataPembeli/buyyer_data.csv"
+#define DATABASE_FILE_BUYYER "buyyer_data.csv"
 
 // strukturI
 typedef struct

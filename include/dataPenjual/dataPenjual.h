@@ -8,7 +8,7 @@
 #define MAX_PASSWORD 48
 #define MAX_PEMBELI 100
 
-#define DATABASE_FILE "../bin/dataPenjual/seller_data.csv"
+#define DATABASE_FILE "seller_data.csv"
 
 typedef struct{
 
