@@ -21,6 +21,7 @@ void clearBufferPM() {
 void daftarPembeli() 
 {
     clearBufferPM();
+
     DataPembeli dataPembeli;
     FILE *file = fopen(DATABASE_FILE_BUYYER, "a");   
 
@@ -33,7 +34,7 @@ void daftarPembeli()
 
     // Replace scanf for number with fgets
     printf("Masukkan No Handphone: ");
-    fscanf(dataPembeli.nomor_pembeli, sizeof(dataPembeli.nomor_pembeli), stdin);
+    fgets(dataPembeli.nomor_pembeli, sizeof(dataPembeli.nomor_pembeli), stdin);
     dataPembeli.nomor_pembeli[strcspn(dataPembeli.nomor_pembeli, "\n")] = '\0'; // Remove newline
 
     // Replace scanf for address with fgets
@@ -50,6 +51,7 @@ void daftarPembeli()
     printf("Masukkan Password: ");
     fgets(dataPembeli.password_pembeli, sizeof(dataPembeli.password_pembeli), stdin);
     dataPembeli.password_pembeli[strcspn(dataPembeli.password_pembeli, "\n")] = '\0'; // Remove newline
+
     encryptPassword(dataPembeli.password_pembeli);
 
     fprintf(file, "%s|%s|%s|%s|%s\n", dataPembeli.nama_pembeli, dataPembeli.nomor_pembeli, dataPembeli.alamat_pembeli, dataPembeli.email, dataPembeli.password_pembeli);

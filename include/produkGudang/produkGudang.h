@@ -2,6 +2,7 @@
 #define PRODUKGUDANG_H
 #define DATABASE_FILE_PRODUK "data_produk.txt"
 #define MAX_PRODUCTS 100
+#define MAX_ALL_PRODUCTS 100
 
 typedef struct {
 
@@ -37,7 +38,6 @@ void viewProducts(FILE *file);
 
 void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProducts, int jumlahAllProducts);
 void removeItem(PROduct *keranjang, int *jumlahProduk);
-void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName);
 
 void tampilanKeranjang(const PROduct *keranjang, int jumlahProduk);
 

@@ -34,25 +34,37 @@ void tampilSbgPenjual ()
         switch (choice6){
 
         case 1:
+
             printf("\n----------------------------------------------------------------------------------\n");
             addProduct(file);
+            printf("\n----------------------------------------------------------------------------------\n");
             break;
+
         case 2:
+
             printf("\n----------------------------------------------------------------------------------\n");
             viewProducts(file);
             printf("\n----------------------------------------------------------------------------------\n");
             break;
+
         case 3:
-                printf("\n----------------------------------------------------------------------------------\n");
-                printf("Enter Product name to edit: ");
-                scanf("%s", editName);
-                editProduct(file, editName); // edit data produk yang sudah diinputkan 
-                break;
+
+            printf("\n----------------------------------------------------------------------------------\n");
+            printf("Enter Product name to edit: ");
+            scanf("%s", editName);
+            editProduct(file, editName); // edit data produk yang sudah diinputkan 
+            printf("\n----------------------------------------------------------------------------------\n");
+            break;
+
         case 4:
-                printf("\n----------------------------------------------------------------------------------\n");
-                printf("Enter product name to delete: ");
-                scanf("%s", deleteName);
-                deleteProduct(file, deleteName);
+
+            printf("\n----------------------------------------------------------------------------------\n");
+            printf("Enter product name to delete: ");
+            scanf("%s", deleteName);
+            deleteProduct(file, deleteName);
+            printf("\n----------------------------------------------------------------------------------\n");
+            break;
+
         case 5:
             printf("\n----------------------------------------------------------------------------------\n"); 
             return -1;
@@ -92,10 +104,12 @@ void tampilSbgPembeli()
             case 1:
                     printf("\n----------------------------------------------------------------------------------\n");
                     searchBarang();
+                    printf("\n----------------------------------------------------------------------------------\n");
                     break;
             case 2:
                     printf("\n----------------------------------------------------------------------------------\n");
                     listKeranjang();
+                    printf("\n----------------------------------------------------------------------------------\n");
                     break;
             case 3:
                     exit (1);
@@ -134,25 +148,36 @@ void searchBarang()
 
         switch (choice5) {
             case 1:
+
+                printf("\n----------------------------------------------------------------------------------\n");
                 // Search for a product by name and display in descending order
                 printf("Masukkan nama produk yang ingin dicari: ");
                 scanf("%s", searchName);
                 searchProduct(file, searchName);
                 quickSort(product, 0, MAX_PRODUCTS - 1, compareDescending);
                 viewProducts(file);
+                printf("\n----------------------------------------------------------------------------------\n");
                 break;
+
             case 2:
+
+                printf("\n----------------------------------------------------------------------------------\n");
                 // Search for a product by name and display in ascending order
                 printf("Masukkan nama produk yang ingin dicari: ");
                 scanf("%s", searchName);
                 searchProduct(file, searchName);
                 quickSort(product, 0, MAX_PRODUCTS - 1, compareAscending);
                 viewProducts(file);
+                printf("\n----------------------------------------------------------------------------------\n");
                 break;
+                
             case 3:
+
                 printf("\n----------------------------------------------------------------------------------\n");
                 listKeranjang();
+                printf("\n----------------------------------------------------------------------------------\n");
                 break;
+
             case 4:
                 return -1;
                 break;
@@ -169,6 +194,8 @@ void searchBarang()
 // menampilkan isi pada keranjang 
 void listKeranjang()
 {
+    int choice2;
+    char deleteFromCartName [50];
     FILE *file = fopen(DATABASE_FILE_PRODUK, "a+");
 
     if (file == NULL) {
@@ -176,53 +203,69 @@ void listKeranjang()
         return 1;
     }
 
-    PROduct allProducts[MAX_PRODUCTS];    
-    int choice2;
-    int jumlahAllProducts = 0;
-    char deleteFromCartName[50];
+    PROduct keranjang[MAX_PRODUCTS];
+    int jumlahKeranjang = 0;
+    PROduct allProducts[MAX_ALL_PRODUCTS];
 
+    rewind(file); // Kembali ke awal file
+    int jumlahAllProducts = 0;
+    // Membaca data produk dari file
+    while (fscanf(file, "%s %f %s %s", allProducts[jumlahAllProducts].name,
+                                      &allProducts[jumlahAllProducts].price,
+                                       allProducts[jumlahAllProducts].restock_date,
+                                       allProducts[jumlahAllProducts].expiry_date) == 4) {
+        jumlahAllProducts++;
+        if (jumlahAllProducts == MAX_ALL_PRODUCTS) {
+            break;  // Hindari melebihi ukuran array
+        }
+    }
+
+    fclose(file);
 
     do{
 
         printf("1. Tambah Item\n"); // tambah item pada barang yang berada di keranjang
         printf("2. Remove Item\n"); // mengurangi item yang dibeli 
-        printf("3. Remove\n"); //delete produk
-        printf("4. Tampilan barang Keranjang\n"); //tampilan item
-        printf("5. back\n"); //kembali ke halaman menu utama
-        printf("6. exit\n"); //keluar dari program
+        printf("3. Tampilan barang Keranjang\n"); //tampilan item
+        printf("4. back\n"); //kembali ke halaman menu utama
+        printf("5. exit\n"); //keluar dari program
         printf("Pilihan Anda: ");
         scanf("%d", &choice2);
 
         switch (choice2)
         {
         case 1:
+
             printf("\n----------------------------------------------------------------------------------\n");
-            tambahItem(allProducts, &jumlahAllProducts, allProducts, jumlahAllProducts);
+            tambahItem(keranjang, &jumlahKeranjang, allProducts, jumlahAllProducts);
             tampilanKeranjang(allProducts, jumlahAllProducts);
+            printf("\n----------------------------------------------------------------------------------\n");
             break;
+            
         case 2:
+
             printf("\n----------------------------------------------------------------------------------\n");
-            removeItem(allProducts, &jumlahAllProducts);            
-            break;
+            removeItem(allProducts, &jumlahAllProducts);
+            printf("\n----------------------------------------------------------------------------------\n");            
+            break;      
+
         case 3:
+
             printf("\n----------------------------------------------------------------------------------\n");
-            printf("Enter product name to delete from cart: ");
-            scanf("%s", deleteFromCartName);
-            deleteProduk(file, allProducts, &jumlahAllProducts, deleteFromCartName);            
+            tampilanKeranjang(allProducts, jumlahAllProducts); 
+            printf("\n----------------------------------------------------------------------------------\n");
             break;
+
         case 4:
-            tampilanKeranjang(allProducts, jumlahAllProducts);    
-            break;
-        case 5:
             printf("\n----------------------------------------------------------------------------------\n");
             return -1;
             break;
-        case 6: 
+        case 5: 
             exit(1);
             break;
         }
 
-    } while (choice2 != 6);
+    } while (choice2 != 5);
 
     fclose(file);
 }
@@ -270,18 +313,23 @@ int main () {
 
                     switch (Choice) {
                         case 1:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             daftarPenjual();
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPenjual();
                             break;
+
                         case 2:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             result1 = loginPenjual(email_penjual, password_penjual);
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPenjual();
                             break;
+
                         case 3:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             fogPassword();
                             printf("\n----------------------------------------------------------------------------------\n");
@@ -289,11 +337,12 @@ int main () {
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPenjual();
                             break;
+
                         case 4:
                             exit (1);
                             break;
                     }
-                } while (Choice != 4 || Choice != 4);
+                } while (Choice != 4);
 
                 break;
 
@@ -310,20 +359,25 @@ int main () {
 
                     switch (choicePembeli) {
                         case 1:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             daftarPembeli();
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPembeli();
                             printf("\n----------------------------------------------------------------------------------\n");
                             break;
+
                         case 2:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             result = loginUser(email, password_pembeli);
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPembeli();
                             printf("\n----------------------------------------------------------------------------------\n");
                             break;
+
                         case 3:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             forgotPassword();
                             printf("\n----------------------------------------------------------------------------------\n");
@@ -331,10 +385,13 @@ int main () {
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPembeli();
                             break;
+
                         case 4:
+
                             printf("\n----------------------------------------------------------------------------------\n");
                             tampilSbgPembeli();
                             break;
+
                         case 5:
                             exit (1);
                             break;

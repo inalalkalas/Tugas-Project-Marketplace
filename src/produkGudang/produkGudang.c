@@ -193,7 +193,7 @@ void deleteProduct(FILE *file, const char *productName) {
     FILE *tempFile;
 
     // Membuka file temporary untuk menulis sementara
-    tempFile = fopen(DATABASE_FILE_PRODUK, "w");
+    tempFile = fopen("tempt.txt", "w");
     if (tempFile == NULL) {
         printf("Error creating temporary file.\n");
         return;
@@ -203,7 +203,9 @@ void deleteProduct(FILE *file, const char *productName) {
 
     // Membaca data produk dari file
     rewind(file);
-    while (fscanf(file, "%s %f %s %s", product.name, &product.price, product.restock_date, product.expiry_date) != EOF) {
+    while (fscanf(file, "%49s %f %s %s", product.name, &product.price, product.restock_date, product.expiry_date) != EOF) {
+        clearBufferPK();  // Clear the buffer after reading the product name
+
         // Jika produk ditemukan, skip penulisan ke temporary file (menghapus produk)
         if (strcmp(product.name, productName) == 0) {
             found = 1;
@@ -218,10 +220,10 @@ void deleteProduct(FILE *file, const char *productName) {
     fclose(tempFile);
 
     // Menghapus file awal
-    remove("products.txt");
+    remove(DATABASE_FILE_PRODUK);
 
     // Mengganti nama temporary file menjadi nama file asli
-    if (rename("temp.txt", "products.txt") != 0) {
+    if (rename("tempt.txt", DATABASE_FILE_PRODUK) != 0) {
         printf("Error renaming temporary file.\n");
         return;
     }
@@ -267,7 +269,7 @@ void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProduct
     // Search for the product in the available products
     int found = 0;
     for (int i = 0; i < jumlahAllProducts; i++) {
-        if (strcmp(allProducts[i].name, productName) == 0) {
+        if (strcasecmp(allProducts[i].name, productName) == 0) {
             // Add the product to the cart
             keranjang[*jumlahProduk] = allProducts[i];
             (*jumlahProduk)++;
@@ -281,6 +283,7 @@ void tambahItem(PROduct *keranjang, int *jumlahProduk, const PROduct *allProduct
         printf("Produk tidak ditemukan.\n");
     }
 }
+
 
 // mengurangi produk pada keranjang
 void removeItem(PROduct *keranjang, int *jumlahProduk) 
@@ -314,70 +317,6 @@ void removeItem(PROduct *keranjang, int *jumlahProduk)
 
     if (!found) {
         printf("Produk tidak ditemukan dalam keranjang.\n");
-    }
-}
-
-// untuk menghapus produk pada keranjang
-void deleteProduk(FILE *file, PROduct *keranjang, int *jumlahProduk, const char *productName) 
-{
-    clearBufferPK();
-
-    if (*jumlahProduk == 0) {
-        printf("Keranjang kosong. Tidak dapat menghapus produk.\n");
-        return;
-    }
-
-    int found = 0;
-
-    // Remove the product from the cart
-    for (int i = 0; i < *jumlahProduk; i++) {
-        if (strcmp(keranjang[i].name, productName) == 0) {
-            // Remove the product from the cart
-            for (int j = i; j < (*jumlahProduk - 1); j++) {
-                keranjang[j] = keranjang[j + 1];
-            }
-            (*jumlahProduk)--;
-            printf("Produk berhasil dihapus dari keranjang.\n");
-            found = 1;
-            break;
-        }
-    }
-
-    // Remove the product from the database file
-    FILE *tempFile = fopen(DATABASE_FILE_PRODUK, "w");
-    if (tempFile == NULL) {
-        printf("Error creating temporary file.\n");
-        return;
-    }
-
-    rewind(file);
-    PROduct product;
-
-    while (fscanf(file, "%s %f %s %s", product.name, &product.price, product.restock_date, product.expiry_date) != EOF) {
-        if (strcmp(product.name, productName) == 0) {
-            // Skip writing the product to the temporary file (delete from database)
-            found = 1;
-            continue;
-        }
-
-        // Write non-deleted products to the temporary file
-        fprintf(tempFile, "%s %.2f %s %s\n", product.name, product.price, product.restock_date, product.expiry_date);
-    }
-
-    fclose(tempFile);
-    fclose(file);
-
-    // Remove the original database file
-    remove(DATABASE_FILE_PRODUK);
-
-    // Rename the temporary file to the original database file
-    if (rename("temp.txt", DATABASE_FILE_PRODUK) != 0) {
-        printf("Error renaming temporary file.\n");
-        return;
-    }
-
-    if (!found) {
-        printf("Produk tidak ditemukan dalam keranjang atau database.\n");
     }
 }
 
